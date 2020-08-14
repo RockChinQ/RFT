@@ -2,6 +2,7 @@
   <configuration default="false" name="ServerMain" type="Application" factoryName="Application" singleton="false">
     <option name="MAIN_CLASS_NAME" value="test.ServerMain" />
     <module name="RFT" />
+    <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

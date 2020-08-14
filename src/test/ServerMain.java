@@ -1,5 +1,6 @@
 package test;
 
+import com.rft.core.client.FileSender;
 import com.rft.core.server.BufferedFileReceiver;
 import com.rft.core.server.FileReceiver;
 import com.rft.core.server.FileServer;
@@ -19,5 +20,6 @@ public class ServerMain {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        FileSender.sendFile(new File("testVideo.MOV"),"","test","localhost",1035);
     }
 }

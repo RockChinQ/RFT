@@ -54,6 +54,8 @@ public class BufferedFileReceiver extends FileReceiver{
                 }
                 //接收完成，调用用户的taskEvent
                 taskMap.remove(token);
+                fileOutputStream.close();
+                dataInputStream.close();
                 getFileServer().taskFinished(token,info);
             }catch (Exception e){
                 e.printStackTrace();
