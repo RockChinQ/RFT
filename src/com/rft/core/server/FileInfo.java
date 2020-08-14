@@ -31,4 +31,12 @@ public class FileInfo {
     public void setSize(long size) {
         this.size = size;
     }
+
+    public String getSavePath() {
+        return savePath;
+    }
+
+    public void setSavePath(String savePath) {
+        this.savePath = savePath;
+    }
 }

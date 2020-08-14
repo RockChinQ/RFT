@@ -1,8 +1,11 @@
 package com.rft.core.server;
 
 import com.rft.core.util.CommandSender;
+import com.rft.core.util.Out;
 
 import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,16 +20,42 @@ public class BufferedFileReceiver extends FileReceiver{
     class ReceiveTask extends Thread{
         FileInfo info;
         DataInputStream dataInputStream;
-        ReceiveTask(FileInfo fileInfo,DataInputStream dataInputStream){
+        String token="";
+        ReceiveTask(FileInfo fileInfo,DataInputStream dataInputStream,String token){
             this.info=fileInfo;
             this.dataInputStream=dataInputStream;
+            this.token=token;
         }
 
         @Override
         public void run() {
 //            super.run();
-            //接收文件
+            try {
+                /**
+                 * 建立指向文件的输出流
+                 */
+                File saveAbsolutePath = new File(getRootPath() + info.getSavePath());
+                if (!saveAbsolutePath.exists() || !saveAbsolutePath.isDirectory()) {//不存在则创建保存目录
+                    saveAbsolutePath.mkdirs();
+                }
+                File target = new File(saveAbsolutePath.getAbsolutePath() + File.separatorChar + info.getName());
+                FileOutputStream fileOutputStream = new FileOutputStream(target);
 
+                //接收文件
+                byte[] bytes =new byte[1024];
+                int length=0;
+                while ((length=dataInputStream.read(bytes,0,bytes.length))!=-1){
+                    fileOutputStream.write(bytes,0,length);
+                    fileOutputStream.flush();
+                }
+                //接收完成，调用用户的taskEvent
+                taskMap.remove(token);
+                getFileServer().taskFinished(token,info);
+            }catch (Exception e){
+                e.printStackTrace();
+                Out.say("ReceiveTask","接收文件失败 token:"+token);
+                interruptFile(token);
+            }
         }
     }
 
@@ -52,7 +81,7 @@ public class BufferedFileReceiver extends FileReceiver{
      */
     @Override
     public synchronized void receiveFile(FileInfo info, Socket socket, DataInputStream dataInputStream,String token) throws Exception {
-        ReceiveTask receiveTask=new ReceiveTask(info,dataInputStream);
+        ReceiveTask receiveTask=new ReceiveTask(info,dataInputStream,token);
         taskMap.put(token,receiveTask);
         receiveTask.start();
     }
@@ -61,6 +90,7 @@ public class BufferedFileReceiver extends FileReceiver{
     public void interruptFile(String token) {
         if(taskMap.containsKey(token)){
             CommandSender.sendMsg(token,"reconn activelyInterrupt");
+            getFileServer().taskInterrupted(token,taskMap.get(token).info);
             taskMap.get(token).stop();
             taskMap.remove(token);
             System.gc();

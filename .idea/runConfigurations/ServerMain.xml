@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ServerMain" type="Application" factoryName="Application" singleton="false">
+    <option name="MAIN_CLASS_NAME" value="test.ServerMain" />
+    <module name="RFT" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

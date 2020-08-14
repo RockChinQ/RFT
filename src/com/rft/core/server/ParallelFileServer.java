@@ -13,6 +13,9 @@ import java.net.Socket;
 public class ParallelFileServer extends FileServer{
 
     private ServerSocket serverSocket;
+    /**
+     * 用于堵塞式接受连接的线程
+     */
     private Thread accept=new Thread(()->{
         try{
             while (true){
@@ -42,7 +45,7 @@ public class ParallelFileServer extends FileServer{
                         this.getReceiver().receiveFile(new FileInfo(name, size, savePath), socket, dataInputStream, token);
                     }catch (Exception e){
                         e.printStackTrace();
-                        Out.say("ParallelFileServer","接收连接失败");
+                        Out.say("ParallelFileServer","接受连接失败");
                     }
                 }).start();
             }
@@ -57,11 +60,24 @@ public class ParallelFileServer extends FileServer{
     }
     @Override
     public void stop() throws Exception {
+        getReceiver().stopAll();
         accept.stop();
     }
     @Override
     public void start() throws Exception {
         serverSocket=new ServerSocket(getPort());
         accept.start();
+    }
+
+    @Override
+    public void taskFinished(String token,FileInfo info) {
+        CommandSender.removeTarget(token);
+        getTaskEvent().taskFinished(token,info);
+    }
+
+    @Override
+    public void taskInterrupted(String token, FileInfo info) {
+        CommandSender.removeTarget(token);
+        getTaskEvent().taskInterrupted(token, info);
     }
 }
