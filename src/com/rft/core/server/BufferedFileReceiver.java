@@ -37,6 +37,7 @@ public class BufferedFileReceiver extends FileReceiver{
                  * 建立指向文件的输出流
                  */
                 receivedSize=0;
+                getFileServer().taskStarted(token,info);
                 File saveAbsolutePath = new File(getRootPath() + info.getSavePath());
                 if (!saveAbsolutePath.exists() || !saveAbsolutePath.isDirectory()) {//不存在则创建保存目录
                     saveAbsolutePath.mkdirs();
