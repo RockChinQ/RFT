@@ -24,6 +24,7 @@ public abstract class FileServer implements IFileServerControl{
     protected TaskEvent getTaskEvent(){
         return taskEvent;
     }
+    public abstract void taskStarted(String token,FileInfo info);
     public abstract void taskFinished(String token,FileInfo info);
     public abstract void taskInterrupted(String token,FileInfo info);
 }

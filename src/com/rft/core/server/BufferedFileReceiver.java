@@ -7,6 +7,7 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ public class BufferedFileReceiver extends FileReceiver{
         FileInfo info;
         DataInputStream dataInputStream;
         String token="";
+        long receivedSize=0;
         ReceiveTask(FileInfo fileInfo,DataInputStream dataInputStream,String token){
             this.info=fileInfo;
             this.dataInputStream=dataInputStream;
@@ -34,6 +36,7 @@ public class BufferedFileReceiver extends FileReceiver{
                 /**
                  * 建立指向文件的输出流
                  */
+                receivedSize=0;
                 File saveAbsolutePath = new File(getRootPath() + info.getSavePath());
                 if (!saveAbsolutePath.exists() || !saveAbsolutePath.isDirectory()) {//不存在则创建保存目录
                     saveAbsolutePath.mkdirs();
@@ -47,6 +50,7 @@ public class BufferedFileReceiver extends FileReceiver{
                 while ((length=dataInputStream.read(bytes,0,bytes.length))!=-1){
                     fileOutputStream.write(bytes,0,length);
                     fileOutputStream.flush();
+                    receivedSize+=length;
                 }
                 //接收完成，调用用户的taskEvent
                 taskMap.remove(token);
@@ -56,6 +60,18 @@ public class BufferedFileReceiver extends FileReceiver{
                 Out.say("ReceiveTask","接收文件失败 token:"+token);
                 interruptFile(token);
             }
+        }
+
+        public FileInfo getInfo() {
+            return info;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public long getReceivedSize() {
+            return receivedSize;
         }
     }
 
@@ -69,6 +85,10 @@ public class BufferedFileReceiver extends FileReceiver{
     }
     public BufferedFileReceiver(String rootPath){
         super(rootPath);
+    }
+
+    public Map<String,ReceiveTask> getTaskMap(){
+        return taskMap;
     }
 
     /**
