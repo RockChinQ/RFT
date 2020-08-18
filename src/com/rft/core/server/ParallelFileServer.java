@@ -77,15 +77,15 @@ public class ParallelFileServer extends FileServer{
 
     @Override
     public void taskFinished(String token,FileInfo info) {
-        CommandSender.removeTarget(token);
         if(getTaskEvent()!=null)
             getTaskEvent().taskFinished(token,info);
+        CommandSender.removeTarget(token);
     }
 
     @Override
     public void taskInterrupted(String token, FileInfo info) {
-        CommandSender.removeTarget(token);
         if(getTaskEvent()!=null)
             getTaskEvent().taskInterrupted(token, info);
+        CommandSender.removeTarget(token);
     }
 }

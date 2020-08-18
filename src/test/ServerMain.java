@@ -13,7 +13,7 @@ public class ServerMain {
     static FileReceiver fileReceiver;
     public static void main(String[] args){
         fileReceiver=new BufferedFileReceiver();
-        fileReceiver.setRootPath("receivedFiles"+ File.separatorChar);
+        fileReceiver.setRootPath("received"+ File.separatorChar);
         fileServer=new ParallelFileServer(1035,fileReceiver);
         try {
             fileServer.start();
@@ -21,5 +21,6 @@ public class ServerMain {
             e.printStackTrace();
         }
         FileSender.sendFile(new File("testVideo.MOV"),"","test","localhost",1035);
+
     }
 }

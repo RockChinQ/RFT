@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="RFT:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/RFT_jar</output-path>
+    <root id="archive" name="RFT.jar">
+      <element id="module-output" name="RFT" />
+    </root>
+  </artifact>
+</component>

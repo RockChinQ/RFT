@@ -18,7 +18,7 @@ public class BufferedFileReceiver extends FileReceiver{
     /**
      * 实际完成文件接收的线程
      */
-    class ReceiveTask extends Thread{
+    public class ReceiveTask extends Thread{
         FileInfo info;
         DataInputStream dataInputStream;
         String token="";
