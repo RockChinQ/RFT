@@ -11,7 +11,7 @@ import java.util.Map;
  * 每个发送任务新建一个此线程
  */
 public class FileSender{
-    private static void sendFileMethod(File file,String savePath,String token,String ip,int port)throws Exception{
+    public static void sendFileMethod(File file,String savePath,String token,String ip,int port)throws Exception{
         if(file.exists()) {
             FileInputStream inputStream=new FileInputStream(file);
             Socket socket = new Socket(ip, port);
