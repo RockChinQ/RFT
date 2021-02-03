@@ -37,20 +37,20 @@ public class ParallelFileServer extends FileServer{
                         try{
                             CommandSender.addTarget(token,bufferedWriter);
                         }catch (Exception e){
-                            e.printStackTrace();
+//                            e.printStackTrace();
                             bufferedWriter.write("reset tokenAlreadyExists");
                             bufferedWriter.newLine();
                             bufferedWriter.flush();
                         }
                         this.getReceiver().receiveFile(new FileInfo(name, size, savePath), socket, dataInputStream, token);
                     }catch (Exception e){
-                        e.printStackTrace();
-                        Out.say("ParallelFileServer","接受连接失败");
+//                        e.printStackTrace();
+//                        Out.say("ParallelFileServer","接受连接失败");
                     }
                 }).start();
             }
         }catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     });
     public ParallelFileServer(int port,FileReceiver receiver){

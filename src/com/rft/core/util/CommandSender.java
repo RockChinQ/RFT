@@ -28,8 +28,8 @@ public class CommandSender {
             bufferedWriter.newLine();
             bufferedWriter.flush();
         }catch (Exception e){
-            e.printStackTrace();
-            Out.say("CommandSender","发送消息失败");
+//            e.printStackTrace();
+//            Out.say("CommandSender","发送消息失败");
         }
     }
     public static void addTarget(String key,BufferedWriter bufferedWriter)throws Exception{

@@ -35,8 +35,8 @@ public class FileSender{
                         }
                     }
                 }catch (Exception e){
-                    e.printStackTrace();
-                    Out.say("FileSender","接收消息失败");
+//                    e.printStackTrace();
+//                    Out.say("FileSender","接收消息失败");
                 }
             });
             t.start();
@@ -55,7 +55,7 @@ public class FileSender{
                 dataOutputStream.flush();
             }
             taskMap.remove(token);
-            Out.say("FileSender-"+token,"文件已发送");
+//            Out.say("FileSender-"+token,"文件已发送");
             t.stop();
             inputStream.close();
             dataOutputStream.close();
@@ -71,15 +71,15 @@ public class FileSender{
                 try {
                     sendFileMethod(file,savePath, token, ip, port);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    Out.say("SendFileThread-"+token,"发送文件失败");
+//                    e.printStackTrace();
+//                    Out.say("SendFileThread-"+token,"发送文件失败");
                 }
             });
             taskMap.put(token,t);
             t.start();
         }catch (Exception e){
-            e.printStackTrace();
-            Out.say("FileSender","无法创建线程");
+//            e.printStackTrace();
+//            Out.say("FileSender","无法创建线程");
         }
     }
 }

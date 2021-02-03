@@ -42,7 +42,7 @@ public class BufferedFileReceiver extends FileReceiver{
                 if (!saveAbsolutePath.exists() || !saveAbsolutePath.isDirectory()) {//不存在则创建保存目录
                     saveAbsolutePath.mkdirs();
                 }
-                File target = new File(saveAbsolutePath.getAbsolutePath() + File.separatorChar + info.getName());
+                File target = new File(saveAbsolutePath.getAbsolutePath() + File.separatorChar + info.getName().replaceAll("MASK",""));
                 FileOutputStream fileOutputStream = new FileOutputStream(target);
 
                 //接收文件
@@ -59,8 +59,8 @@ public class BufferedFileReceiver extends FileReceiver{
                 dataInputStream.close();
                 getFileServer().taskFinished(token,info);
             }catch (Exception e){
-                e.printStackTrace();
-                Out.say("ReceiveTask","接收文件失败 token:"+token);
+//                e.printStackTrace();
+//                Out.say("ReceiveTask","接收文件失败 token:"+token);
                 interruptFile(token);
             }
         }
